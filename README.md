@@ -12,6 +12,12 @@ Live pricing glitch and deal tracker for India and US retail stores.
 
 - Save deals to a personal watchlist
 
+## Versions
+- `index.html` — Global version (India + US)
+- `india.html` — India-focused version: 50+ Indian brands including Zara India, 
+  H&M India, Myntra, Meesho, Ajio, Cava Athleisure, Suta, Fabindia, 
+  The Label Life, Mango India, and more
+
 ## How it works
 
 Single HTML file. Uses the Anthropic Claude API with web search to find and classify deals in real time.
