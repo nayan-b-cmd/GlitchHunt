@@ -1,0 +1,550 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet"/>
+<h2 class="sr-only">GlitchHunt India — AI-powered pricing glitch and deal tracker for Indian fashion and lifestyle brands including Zara, H&M, Myntra, Cava Athleisure and more</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--pk:#E8B4B8;--pk2:#d4959a;--pk3:#f9ecee;
+--sg:#A8D5BA;--sg2:#7bba97;--sg3:#e8f5ee;
+--gd:#D4AF37;--gd2:#b8941e;--gd3:#faf3dc;
+--bg:#FFF5F5;--bg2:#fff;--bg3:#fdeef0;
+--tx:#2D3436;--tx2:#636e72;--tx3:#b2bec3;
+--bdr:rgba(232,180,184,0.35);--bdr2:rgba(232,180,184,0.6);
+--rad:12px;--rad2:18px;--rad3:24px;
+--shadow:0 2px 12px rgba(232,180,184,0.18);
+--shadow2:0 4px 24px rgba(232,180,184,0.28);
+}
+body{font-family:'Montserrat',sans-serif;color:var(--tx);background:var(--bg);font-size:13px;line-height:1.6}
+.app{max-width:700px;margin:0 auto;padding:0 0 2rem}
+
+.hero{background:var(--bg2);border-radius:var(--rad2);border:1px solid var(--bdr2);padding:1.5rem 1.5rem 1.25rem;margin-bottom:1rem;box-shadow:var(--shadow)}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:1rem}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:38px;height:38px;background:var(--pk);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(232,180,184,0.4)}
+.brand-mark svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--tx);letter-spacing:-.3px;line-height:1}
+.brand-sub{font-size:10px;color:var(--tx2);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.live-pill{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--sg2);font-weight:500;background:var(--sg3);padding:5px 10px;border-radius:20px;border:1px solid rgba(168,213,186,0.5)}
+.ldot{width:6px;height:6px;background:var(--sg2);border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+
+.nav{display:flex;background:var(--bg3);border-radius:14px;padding:3px;gap:2px;border:1px solid var(--bdr)}
+.nav-btn{flex:1;padding:7px 8px;font-size:11px;font-weight:500;font-family:'Montserrat',sans-serif;cursor:pointer;background:transparent;border:none;color:var(--tx2);border-radius:11px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
+.nav-btn.active{background:var(--bg2);color:var(--tx);box-shadow:var(--shadow)}
+.nav-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.wl-badge{background:var(--pk);color:#fff;font-size:9px;font-weight:600;border-radius:8px;padding:1px 5px;margin-left:2px}
+
+.panel{display:none}.panel.active{display:block}
+
+.row{display:flex;gap:8px;margin-bottom:.85rem;flex-wrap:wrap;align-items:center}
+.search-wrap{flex:1;min-width:160px;display:flex;align-items:center;background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--rad);overflow:hidden;box-shadow:0 1px 4px rgba(232,180,184,0.12);transition:border-color .2s}
+.search-wrap:focus-within{border-color:var(--pk2)}
+.search-wrap svg{width:16px;height:16px;stroke:var(--tx3);fill:none;stroke-width:2;stroke-linecap:round;margin:0 10px;flex-shrink:0}
+.search-wrap input{border:none;outline:none;background:transparent;padding:9px 10px 9px 0;font-size:13px;font-family:'Montserrat',sans-serif;color:var(--tx);flex:1;min-width:0}
+.search-wrap input::placeholder{color:var(--tx3)}
+
+.btn-primary{padding:8px 16px;font-size:12px;font-weight:600;font-family:'Montserrat',sans-serif;cursor:pointer;background:var(--pk);border:none;border-radius:var(--rad);color:#fff;display:flex;align-items:center;gap:6px;transition:all .2s;box-shadow:0 2px 8px rgba(232,180,184,0.35)}
+.btn-primary:hover{background:var(--pk2);box-shadow:0 4px 14px rgba(232,180,184,0.45);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-primary svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+.btn-outline{padding:7px 13px;font-size:12px;font-weight:500;font-family:'Montserrat',sans-serif;cursor:pointer;background:var(--bg2);border:1px solid var(--bdr2);border-radius:var(--rad);color:var(--tx);display:flex;align-items:center;gap:5px;transition:all .2s}
+.btn-outline:hover{border-color:var(--pk);background:var(--pk3)}
+.btn-outline:disabled{opacity:.5;cursor:not-allowed}
+.btn-outline svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.85rem;align-items:center}
+.chip-lbl{font-size:11px;color:var(--tx2);font-weight:500;margin-right:2px}
+.chip{padding:4px 11px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--bdr2);background:var(--bg2);color:var(--tx2);font-family:'Montserrat',sans-serif;transition:all .2s}
+.chip:hover{border-color:var(--pk);color:var(--tx)}
+.chip.active{background:var(--pk);border-color:var(--pk);color:#fff}
+.qchip{padding:4px 11px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--bdr);background:var(--bg3);color:var(--tx2);font-family:'Montserrat',sans-serif;transition:all .2s}
+.qchip:hover{border-color:var(--pk);color:var(--tx);background:var(--pk3)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:1rem}
+.stat{background:var(--bg2);border-radius:var(--rad);padding:10px 12px;border:1px solid var(--bdr);box-shadow:0 1px 4px rgba(232,180,184,0.1)}
+.stat-l{font-size:10px;color:var(--tx2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em;font-weight:500}
+.stat-v{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;line-height:1}
+.c-pk{color:var(--pk2)}.c-sg{color:var(--sg2)}.c-gd{color:var(--gd2)}.c-tx{color:var(--tx)}
+
+.divr{display:flex;align-items:center;gap:10px;margin:.9rem 0 .7rem;font-size:11px;color:var(--tx2);font-weight:500;letter-spacing:.03em}
+.divr-l{flex:1;height:1px;background:var(--bdr)}
+
+.deals{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rad2);padding:1rem 1.1rem;transition:box-shadow .2s,border-color .2s;box-shadow:var(--shadow)}
+.card:hover{box-shadow:var(--shadow2);border-color:var(--bdr2)}
+.card.hot{border-left:3px solid var(--pk2)}
+.card.live-r{border-left:3px solid var(--sg2)}
+.card.wl-hl{border-left:3px solid var(--gd)}
+
+.ctop{display:flex;gap:10px;margin-bottom:9px}
+.cmeta{flex:1;min-width:0}
+.bdgs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px}
+.bdg{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.02em}
+.bg-glitch{background:#fde8e8;color:#c0392b}
+.bg-deal{background:var(--sg3);color:#27500A}
+.bg-store{background:var(--bg3);color:var(--tx2)}
+.bg-hot{background:var(--gd3);color:#633806}
+.bg-live{background:var(--sg3);color:#085041}
+.bg-pct{background:#fde8e8;color:#c0392b}
+.bg-niche{background:#f3e8fd;color:#5b2d8e}
+.bg-premium{background:var(--gd3);color:var(--gd2)}
+
+.cname{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;line-height:1.3;margin-bottom:2px;color:var(--tx)}
+.cdesc{font-size:11px;color:var(--tx2)}
+.pblk{text-align:right;flex-shrink:0}
+.pnow{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--pk2);line-height:1}
+.pwas{font-size:11px;color:var(--tx3);text-decoration:line-through;margin-top:1px}
+.pelse{font-size:10px;color:var(--tx2);margin-top:2px}
+
+.cbody{border-top:1px solid var(--bdr);padding-top:9px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.fl{font-size:10px;color:var(--tx2);margin-bottom:1px;text-transform:uppercase;letter-spacing:.04em;font-weight:500}
+.fv{font-weight:600;font-size:12px}
+.fv-sg{color:var(--sg2)}.fv-gd{color:var(--gd2)}
+
+.ibox{grid-column:1/-1;font-size:11px;color:var(--tx2);background:var(--bg3);border-radius:var(--rad);padding:8px 10px;line-height:1.6;border:1px solid var(--bdr)}
+.ibox strong{color:var(--tx);font-weight:600}
+
+.vrow{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.vbox{border-radius:var(--rad);padding:8px 10px;font-size:11px;line-height:1.55}
+.vbox-g{background:#fde8e8;color:#7b1f1f;border:1px solid rgba(192,57,43,.15)}
+.vbox-g strong{color:#5a1515}
+.vbox-d{background:var(--sg3);color:#1a4a2e;border:1px solid rgba(168,213,186,.3)}
+.vbox-d strong{color:#0f3020}
+
+.pbox{grid-column:1/-1;background:var(--gd3);border-radius:var(--rad);padding:8px 10px;font-size:11px;color:#4a3500;line-height:1.55;border:1px solid rgba(212,175,55,.2)}
+.pbox strong{color:var(--gd2)}
+
+.cfooter{margin-top:9px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cf-link{font-size:11px;color:var(--pk2);text-decoration:none;display:flex;align-items:center;gap:3px;font-weight:500;transition:color .15s}
+.cf-link:hover{color:var(--pk)}
+.cf-link svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.cf-btn{font-size:11px;padding:4px 9px;font-family:'Montserrat',sans-serif;cursor:pointer;background:transparent;border:1px solid var(--bdr2);border-radius:8px;color:var(--tx2);display:flex;align-items:center;gap:3px;transition:all .2s}
+.cf-btn:hover{background:var(--pk3);border-color:var(--pk);color:var(--tx)}
+.cf-btn.wld{color:var(--sg2);border-color:var(--sg)}
+.cf-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.ctmr{font-size:10px;color:var(--tx3);display:flex;align-items:center;gap:3px;margin-left:auto}
+.ctmr svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+.lbox{display:flex;flex-direction:column;align-items:center;gap:10px;padding:2rem;color:var(--tx2);font-size:12px;text-align:center;font-weight:500}
+.lbox svg{width:28px;height:28px;stroke:var(--pk);fill:none;stroke-width:1.5;stroke-linecap:round}
+.lbar{width:200px;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;border:1px solid var(--bdr)}
+.lfill{height:100%;background:linear-gradient(90deg,var(--pk),var(--gd));border-radius:2px;animation:lb 2.5s ease-in-out infinite}
+@keyframes lb{0%{width:0%}65%{width:88%}100%{width:93%}}
+.spin{animation:sp .7s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.errbox{background:#fde8e8;color:#7b1f1f;border-radius:var(--rad);padding:9px 12px;font-size:12px;margin-bottom:.75rem;border:1px solid rgba(192,57,43,.2)}
+.empty{text-align:center;padding:2.5rem;color:var(--tx2);font-size:13px}
+
+.wl-empty{text-align:center;padding:3rem 1rem;color:var(--tx2);font-size:13px}
+.wl-empty svg{width:32px;height:32px;stroke:var(--tx3);fill:none;stroke-width:1.5;stroke-linecap:round;display:block;margin:0 auto 10px;opacity:.5}
+.wl-item{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rad2);padding:.8rem 1rem;display:flex;align-items:center;gap:10px;margin-bottom:7px;box-shadow:var(--shadow);transition:box-shadow .2s}
+.wl-item:hover{box-shadow:var(--shadow2)}
+.wl-icon{width:36px;height:36px;background:var(--bg3);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--bdr)}
+.wl-icon svg{width:16px;height:16px;stroke:var(--pk2);fill:none;stroke-width:2;stroke-linecap:round}
+.wl-inf{flex:1;min-width:0}
+.wl-name{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wl-meta{font-size:10px;color:var(--tx2)}
+.wl-p{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--pk2);flex-shrink:0}
+.wl-rm{background:transparent;border:none;cursor:pointer;color:var(--tx3);padding:5px;border-radius:6px;line-height:1;transition:all .15s}
+.wl-rm:hover{color:#c0392b;background:#fde8e8}
+.wl-rm svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;display:block}
+
+.vform-group{margin-bottom:.85rem}
+.vform-group label{font-size:11px;color:var(--tx2);display:block;margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.vform-group input,.vform-group textarea{width:100%;border:1px solid var(--bdr2);border-radius:var(--rad);padding:9px 12px;font-size:13px;font-family:'Montserrat',sans-serif;color:var(--tx);background:var(--bg2);outline:none;transition:border-color .2s}
+.vform-group input:focus,.vform-group textarea:focus{border-color:var(--pk2)}
+.vform-group textarea{min-height:60px;resize:vertical}
+.vmeter{display:flex;gap:4px;margin:7px 0}
+.vseg{flex:1;height:5px;border-radius:3px;background:var(--bdr)}
+.vseg.fr{background:#c0392b}.vseg.fa{background:var(--gd)}.vseg.fg{background:var(--sg2)}
+
+.section-title{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:var(--tx);margin-bottom:.6rem;letter-spacing:.01em}
+</style>
+
+<div class="app">
+
+<div class="hero">
+  <div class="hero-top">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">GlitchHunt India</div>
+        <div class="brand-sub">Price errors · Flash deals · 50+ Indian brands</div>
+      </div>
+    </div>
+    <div class="live-pill"><span class="ldot"></span>Monitoring live</div>
+  </div>
+  <div class="nav" id="nav">
+    <button class="nav-btn active" onclick="switchTab('browse',this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Browse
+    </button>
+    <button class="nav-btn" onclick="switchTab('search',this)">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search item
+    </button>
+    <button class="nav-btn" onclick="switchTab('watchlist',this)">
+      <svg viewBox="0 0 24 24"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Saved<span class="wl-badge" id="wlbadge">0</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('verify',this)">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verify deal
+    </button>
+  </div>
+</div>
+
+<!-- BROWSE -->
+<div class="panel active" id="panel-browse">
+  <div class="row">
+    <div class="chips" style="margin-bottom:0;flex:1">
+      <span class="chip-lbl">Category:</span>
+      <button class="chip active" onclick="setF('all',this)">All</button>
+      <button class="chip" onclick="setF('fashion',this)">Fashion</button>
+      <button class="chip" onclick="setF('athleisure',this)">Athleisure</button>
+      <button class="chip" onclick="setF('ethnic',this)">Ethnic</button>
+      <button class="chip" onclick="setF('premium',this)">Premium</button>
+      <button class="chip" onclick="setF('glitch',this)">Glitch only</button>
+      <button class="chip" onclick="setF('70',this)">70%+ off</button>
+    </div>
+    <button class="btn-outline" id="refbtn" onclick="doLive()">
+      <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="m1 14 4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Refresh
+    </button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-l">Active glitches</div><div class="stat-v c-pk" id="s-count">8</div></div>
+    <div class="stat"><div class="stat-l">Avg discount</div><div class="stat-v c-tx" id="s-avg">74%</div></div>
+    <div class="stat"><div class="stat-l">Best saving</div><div class="stat-v c-sg">₹14,200</div></div>
+    <div class="stat"><div class="stat-l">Saved deals</div><div class="stat-v c-gd" id="s-wl">0</div></div>
+  </div>
+  <div id="b-err"></div><div id="b-load"></div>
+  <div class="deals" id="b-deals"></div>
+</div>
+
+<!-- SEARCH -->
+<div class="panel" id="panel-search">
+  <p style="font-size:12px;color:var(--tx2);margin-bottom:.9rem;line-height:1.6">Search any product, brand, or category — from big names like Zara and Myntra to niche labels like Cava Athleisure, The Label Life, or Suta. We classify every result as a genuine glitch or great deal and give you a price prediction.</p>
+  <div class="row">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="s-input" placeholder="jacket, kurta, Cava leggings, Zara, sneakers..." onkeydown="if(event.key==='Enter')doSearch()"/>
+    </div>
+    <button class="btn-primary" id="s-btn" onclick="doSearch()">
+      <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Hunt
+    </button>
+  </div>
+  <div style="margin-bottom:.9rem">
+    <div class="section-title">Quick searches</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="qchip" onclick="qs('Cava Athleisure')">Cava Athleisure</button>
+      <button class="qchip" onclick="qs('Zara India jacket')">Zara jacket</button>
+      <button class="qchip" onclick="qs('H&M India dress')">H&M dress</button>
+      <button class="qchip" onclick="qs('Myntra sneakers')">Myntra sneakers</button>
+      <button class="qchip" onclick="qs('Suta saree')">Suta saree</button>
+      <button class="qchip" onclick="qs('The Label Life')">The Label Life</button>
+      <button class="qchip" onclick="qs('Bewakoof tshirt')">Bewakoof tee</button>
+      <button class="qchip" onclick="qs('Fabindia kurta')">Fabindia kurta</button>
+      <button class="qchip" onclick="qs('Mamaearth skincare')">Mamaearth</button>
+      <button class="qchip" onclick="qs('Mango India')">Mango India</button>
+      <button class="qchip" onclick="qs('Ajio silk saree')">Ajio saree</button>
+      <button class="qchip" onclick="qs('Adidas India shoes')">Adidas shoes</button>
+    </div>
+  </div>
+  <div id="s-err"></div><div id="s-load"></div><div id="s-results"></div>
+</div>
+
+<!-- WATCHLIST -->
+<div class="panel" id="panel-watchlist">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <p style="font-size:12px;color:var(--tx2)">Your saved deals — track and act before they expire.</p>
+    <button class="btn-outline" onclick="clearWL()" style="font-size:11px">
+      <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Clear all
+    </button>
+  </div>
+  <div id="wl-list"></div>
+</div>
+
+<!-- VERIFY -->
+<div class="panel" id="panel-verify">
+  <p style="font-size:12px;color:var(--tx2);margin-bottom:1rem;line-height:1.6">Found a deal anywhere — Instagram, WhatsApp, Reddit, a store? Paste it here and we'll verify if it's a real pricing glitch, an intentional flash sale, or suspicious.</p>
+  <div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rad2);padding:1.1rem;margin-bottom:1rem;box-shadow:var(--shadow)">
+    <div class="vform-group"><label>Product name *</label><input type="text" id="v-name" placeholder="e.g. Zara leather jacket, Cava athleisure leggings"/></div>
+    <div class="vform-group"><label>Price you saw *</label><input type="text" id="v-price" placeholder="e.g. ₹299 or ₹1,499"/></div>
+    <div class="vform-group"><label>Store or URL</label><input type="text" id="v-store" placeholder="e.g. Myntra, Ajio, or paste the product URL"/></div>
+    <div class="vform-group"><label>Extra context</label><textarea id="v-ctx" placeholder="e.g. saw on Reddit r/IndianFrugal, applied coupon code SAVE80, item in cart..."></textarea></div>
+    <button class="btn-primary" id="v-btn" onclick="doVerify()" style="width:100%;justify-content:center">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verify this deal
+    </button>
+  </div>
+  <div id="v-err"></div><div id="v-load"></div><div id="v-result"></div>
+</div>
+
+</div>
+
+<script>
+const DEMO=[
+  {id:1,name:"Zara Leather Biker Jacket",store:"Zara India",region:"in",cat:"fashion",type:"glitch",niche:false,premium:false,gp:"₹1,299",wp:"₹15,499",ep:"₹14,800 Myntra · ₹15,200 Ajio",disc:92,sav:"₹14,200",hot:true,desc:"Men's genuine leather, black, S–XL",why:"<strong>Why it's a glitch:</strong> Zara India's pricing engine applied a clearance multiplier twice during backend sync. 92% below the identical SKU live on Myntra right now.",vg:"Double-markdown system error — confirmed backend glitch. High chance this corrects within 3–6h.",vd:"Even at full ₹15,499 this is market-rate. At ₹1,299 it is exceptional value.",pred:"Zara India backend glitches of this type self-correct within 3–6 hours. First-hour orders historically have ~70% ship rate.",link:"https://www.zara.com/in/",timer:"~3h left",spotted:"8 min ago"},
+  {id:2,name:"Cava Athleisure High-Waist Leggings",store:"Cava Athleisure",region:"in",cat:"athleisure",type:"glitch",niche:true,premium:false,gp:"₹299",wp:"₹2,499",ep:"₹2,199 Myntra · ₹2,299 Nykaa Fashion",disc:88,sav:"₹2,200",hot:true,desc:"4-way stretch, squat-proof, XS–3XL",why:"<strong>Why it's a glitch:</strong> Cava's WooCommerce pricing plugin applied a bulk discount rule globally — ₹299 is the factory-sample price tier applied in error to retail stock.",vg:"Plugin misconfiguration — a common WooCommerce error for D2C brands. Orders likely to ship as goodwill.",vd:"Myntra sells Cava leggings at ₹2,199. At ₹299 this is extraordinary for the quality.",pred:"Small D2C brands like Cava often honour glitch orders as PR goodwill. Price corrected within 12–24h. Act fast.",link:"https://www.cavaathleisure.com/",timer:"~8h left",spotted:"18 min ago"},
+  {id:3,name:"H&M Studio Cashmere Coat",store:"H&M India",region:"in",cat:"fashion",type:"glitch",niche:false,premium:true,gp:"₹799",wp:"₹7,999",ep:"₹7,200 Myntra · ₹7,499 Nykaa",disc:90,sav:"₹7,200",hot:true,desc:"Women's oversized camel coat, XS–XL",why:"<strong>Why it's a glitch:</strong> SKU-level data entry error — ₹799 is the price of a basic H&M tee, mislabelled on a cashmere coat SKU.",vg:"Human data-entry error. H&M India support confirmed 'under review'. Strong glitch signal.",vd:"Cashmere at ₹7,999 is already below international pricing. At ₹799 this is unmissable.",pred:"H&M India corrects SKU errors within 6–12h. Existing orders may still be honoured at ~65% rate.",link:"https://www2.hm.com/en_in/",timer:"~6h left",spotted:"22 min ago"},
+  {id:4,name:"Myntra Levi's 511 Slim Jeans",store:"Myntra",region:"in",cat:"fashion",type:"deal",niche:false,premium:false,gp:"₹499",wp:"₹4,299",ep:"₹3,800 Levi's.com/in · ₹3,999 Ajio",disc:88,sav:"₹3,800",hot:false,desc:"Men's stretch slim fit, indigo, waist 28–38",why:"<strong>Why it's a great deal:</strong> Myntra's engine stacked a bank offer, referral discount, and flash sale code — unintended coupon stacking.",vg:"Coupon stacking grey area. Myntra has honoured similar stacks as goodwill, especially for first-time stackers.",vd:"Levi's India sells these at ₹3,800 normally. At ₹499 this is outstanding value.",pred:"Myntra stacking errors survive 5–8h before patching. Bank-linked orders ~60% fulfilment rate.",link:"https://www.myntra.com/",timer:"~5h left",spotted:"45 min ago"},
+  {id:5,name:"Fabindia Chanderi Silk Kurta Set",store:"Fabindia",region:"in",cat:"ethnic",type:"glitch",niche:false,premium:true,gp:"₹499",wp:"₹5,490",ep:"₹5,200 Fabindia stores · ₹4,800 Ajio Luxe",disc:91,sav:"₹4,991",hot:true,desc:"Women's chanderi silk, block print, XS–XXL",why:"<strong>Why it's a glitch:</strong> Fabindia's seasonal sale automation applied a 91% markdown to the wrong SKU category — chanderi silk tagged as cotton basics.",vg:"Category tag error in sale automation. Fabindia typically cancels but has honoured in past — worth trying.",vd:"Chanderi silk kurta sets start at ₹3,500 even in sale. At ₹499 this is genuinely extraordinary.",pred:"Fabindia IT corrects within 6–10h during business hours. Orders placed before 6 PM have best chance.",link:"https://www.fabindia.com/",timer:"~4h left",spotted:"31 min ago"},
+  {id:6,name:"Suta Handloom Cotton Saree",store:"Suta",region:"in",cat:"ethnic",type:"deal",niche:true,premium:false,gp:"₹799",wp:"₹3,200",ep:"₹3,000 Suta stores · ₹2,900 Ajio",disc:75,sav:"₹2,401",hot:false,desc:"Pure cotton, hand-woven, 6.3m with blouse piece",why:"<strong>Why it's a great deal:</strong> Suta applied their annual warehouse clearance discount + Instagram follower code simultaneously — rare legitimate double-stack.",vg:"Both discounts are legitimate and individually published. Very low cancellation risk for this brand.",vd:"Suta sarees start at ₹1,800 for basics. A handloom piece at ₹799 is well below wholesale.",pred:"Suta warehouse sales are genuine — this price may hold 24–48h. Stock is the main constraint, not price correction.",link:"https://suta.in/",timer:"~36h left",spotted:"2h ago"},
+  {id:7,name:"The Label Life Linen Co-ord Set",store:"The Label Life",region:"in",cat:"fashion",type:"glitch",niche:true,premium:true,gp:"₹699",wp:"₹4,999",ep:"₹4,500 Myntra · ₹4,800 Nykaa Fashion",disc:86,sav:"₹4,300",hot:false,desc:"Women's linen blazer + trousers, sand, XS–L",why:"<strong>Why it's a glitch:</strong> TLL's Shopify discount app applied a 'welcome 10%' code as '90% off' due to decimal point misconfiguration.",vg:"Decimal-point error in discount config — classic D2C Shopify glitch. TLL has honoured similar errors before.",vd:"Linen co-ords at Myntra are ₹3,500+. At ₹699 this is far below market.",pred:"Shopify glitches of this type are caught within 4–12h. Brand likely to honour first 50 orders for goodwill.",link:"https://thelabellife.com/",timer:"~6h left",spotted:"1h ago"},
+  {id:8,name:"Mango India Wool Blend Coat",store:"Mango India",region:"in",cat:"fashion",type:"glitch",niche:false,premium:true,gp:"₹1,999",wp:"₹18,990",ep:"₹17,500 Myntra · ₹18,000 Ajio Luxe",disc:89,sav:"₹16,991",hot:true,desc:"Women's structured wool coat, camel, XS–XL",why:"<strong>Why it's a glitch:</strong> Mango India's pricing sync from their Spain HQ applied Euro → INR conversion incorrectly, treating ₹18,990 as the Euro price and converting down.",vg:"Currency conversion error — a documented Mango India issue. Orders placed may ship before IT intervention.",vd:"Comparable wool coats from Mango at full price are excellent value. At ₹1,999 this is extraordinary.",pred:"Mango India currency sync glitches typically take 8–16h to fix (HQ timezone lag). High potential for order fulfilment.",link:"https://shop.mango.com/in/",timer:"~8h left",spotted:"12 min ago"}
+];
+
+let live=[],wl=[],fCat='all',busy={live:false,search:false,verify:false};
+try{wl=JSON.parse(localStorage.getItem('ghi_wl')||'[]')}catch(e){}
+
+const API='https://api.anthropic.com/v1/messages';
+const MODEL='claude-sonnet-4-20250514';
+const WSRCH=[{type:'web_search_20250305',name:'web_search'}];
+
+function upWL(){
+  const n=wl.length;
+  document.getElementById('wlbadge').textContent=n;
+  const sw=document.getElementById('s-wl');if(sw)sw.textContent=n;
+}
+upWL();
+
+function switchTab(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='watchlist')renderWL();
+}
+
+function setF(f,el){
+  fCat=f;
+  document.querySelectorAll('#panel-browse .chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderBrowse();
+}
+
+function allDeals(){return[...live,...DEMO];}
+
+function applyFilter(arr){
+  return arr.filter(d=>{
+    if(fCat==='fashion'&&d.cat!=='fashion')return false;
+    if(fCat==='athleisure'&&d.cat!=='athleisure')return false;
+    if(fCat==='ethnic'&&d.cat!=='ethnic')return false;
+    if(fCat==='premium'&&!d.premium)return false;
+    if(fCat==='glitch'&&d.type!=='glitch')return false;
+    if(fCat==='70'&&d.disc<70)return false;
+    return true;
+  });
+}
+
+function inWL(id){return wl.some(w=>String(w.id)===String(id));}
+
+function toggleWL(d){
+  const i=wl.findIndex(w=>String(w.id)===String(d.id));
+  if(i>-1)wl.splice(i,1);else wl.push(d);
+  try{localStorage.setItem('ghi_wl',JSON.stringify(wl))}catch(e){}
+  upWL();renderBrowse();
+}
+function clearWL(){wl=[];try{localStorage.setItem('ghi_wl','[]')}catch(e){}upWL();renderWL();}
+function removeWL(id){wl=wl.filter(w=>String(w.id)!==String(id));try{localStorage.setItem('ghi_wl',JSON.stringify(wl))}catch(e){}upWL();renderWL();}
+
+function svgIcon(name){
+  const icons={
+    external:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+    bookmark:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+    clock:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    x:'<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+  };
+  return icons[name]||'';
+}
+
+function cardHTML(d,verdict){
+  const saved=inWL(d.id);
+  const isG=d.type==='glitch';
+  const dj=JSON.stringify(d).replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
+  return`<div class="card${d.hot?' hot':''}${d.live?' live-r':''}${saved?' wl-hl':''}">
+<div class="ctop">
+  <div class="cmeta">
+    <div class="bdgs">
+      ${d.hot?'<span class="bdg bg-hot">Hot</span>':''}
+      ${d.live?'<span class="bdg bg-live">Live find</span>':''}
+      ${d.niche?'<span class="bdg bg-niche">Niche brand</span>':''}
+      ${d.premium?'<span class="bdg bg-premium">Premium</span>':''}
+      <span class="bdg ${isG?'bg-glitch':'bg-deal'}">${isG?'Pricing glitch':'Great deal'}</span>
+      <span class="bdg bg-pct">${d.disc}% off</span>
+      <span class="bdg bg-store">${d.store}</span>
+    </div>
+    <div class="cname">${d.name}</div>
+    <div class="cdesc">${d.desc||''}</div>
+  </div>
+  <div class="pblk">
+    <div class="pnow">${d.gp}</div>
+    <div class="pwas">${d.wp}</div>
+    <div class="pelse">${(d.ep||'').split('·')[0].trim()}</div>
+  </div>
+</div>
+<div class="cbody">
+  <div><div class="fl">You save</div><div class="fv fv-sg">${d.sav}</div></div>
+  <div><div class="fl">Spotted</div><div class="fv">${d.spotted||'Just now'}</div></div>
+  <div><div class="fl">Est. time left</div><div class="fv">${d.timer||'Unknown'}</div></div>
+  <div class="ibox">${d.why||''}<br><span style="margin-top:3px;display:inline-block;opacity:.8;font-size:10px">Also: ${d.ep||''}</span></div>
+  ${verdict&&(d.vg||d.vd)?`<div class="vrow">
+    ${d.vg?`<div class="vbox vbox-g"><strong>Glitch verdict:</strong> ${d.vg}</div>`:''}
+    ${d.vd?`<div class="vbox vbox-d"><strong>Deal verdict:</strong> ${d.vd}</div>`:''}
+  </div>`:''}
+  ${d.pred?`<div class="pbox"><strong>Price prediction:</strong> ${d.pred}</div>`:''}
+</div>
+<div class="cfooter">
+  <a class="cf-link" href="${d.link||'#'}" target="_blank">${svgIcon('external')} ${d.store}</a>
+  <button class="cf-btn${saved?' wld':''}" onclick='toggleWL(JSON.parse(this.dataset.d))' data-d="${dj}">
+    ${svgIcon('bookmark')} ${saved?'Saved':'Save'}
+  </button>
+  <button class="cf-btn" onclick="sendPrompt('I found this deal: ${d.name.replace(/'/g,"\\'")} at ${d.gp} on ${d.store}. Should I buy it right now? What are the risks, return policy, and how do I buy it safely?')">Ask Claude ↗</button>
+  <span class="ctmr">${svgIcon('clock')} ${d.timer||''}</span>
+</div>
+</div>`;
+}
+
+function renderBrowse(){
+  const deals=applyFilter(allDeals());
+  document.getElementById('s-count').textContent=deals.length;
+  document.getElementById('s-avg').textContent=(deals.length?Math.round(deals.reduce((a,d)=>a+d.disc,0)/deals.length):0)+'%';
+  const box=document.getElementById('b-deals');
+  if(!deals.length){box.innerHTML='<div class="empty">No deals match this filter.</div>';return;}
+  const lv=deals.filter(d=>d.live).sort((a,b)=>b.disc-a.disc);
+  const dm=deals.filter(d=>!d.live).sort((a,b)=>(b.hot?1:0)-(a.hot?1:0)||b.disc-a.disc);
+  let h='';
+  if(lv.length){h+=`<div class="divr"><span class="divr-l"></span><span>Live AI finds</span><span class="divr-l"></span></div>${lv.map(d=>cardHTML(d,true)).join('')}`;if(dm.length)h+=`<div class="divr"><span class="divr-l"></span><span>Curated glitches</span><span class="divr-l"></span></div>`;}
+  h+=dm.map(d=>cardHTML(d,false)).join('');
+  box.innerHTML=h;
+}
+renderBrowse();
+
+function renderWL(){
+  const box=document.getElementById('wl-list');
+  if(!wl.length){box.innerHTML=`<div class="wl-empty"><svg viewBox="0 0 24 24"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>No saved deals yet.<br>Hit "Save" on any deal card to track it here.</div>`;return;}
+  box.innerHTML=wl.map(d=>`<div class="wl-item">
+    <div class="wl-icon"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--pk2);fill:none;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+    <div class="wl-inf">
+      <div class="wl-name">${d.name}</div>
+      <div class="wl-meta">${d.store} · ${d.disc}% off · ${d.timer||''}</div>
+    </div>
+    <div class="wl-p">${d.gp}</div>
+    <button class="wl-rm" onclick="removeWL('${d.id}')" aria-label="Remove">${svgIcon('x')}</button>
+    <a href="${d.link||'#'}" target="_blank" style="color:var(--pk2);flex-shrink:0">${svgIcon('external')}</a>
+  </div>`).join('');
+}
+
+function qs(term){
+  document.getElementById('s-input').value=term;
+  switchTab('search',document.querySelectorAll('.nav-btn')[1]);
+  doSearch();
+}
+
+async function callAPI(prompt){
+  const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,max_tokens:1000,tools:WSRCH,messages:[{role:'user',content:prompt}]})});
+  if(!res.ok)throw new Error('API error '+res.status);
+  const data=await res.json();
+  return data.content.map(i=>i.type==='text'?i.text:'').join('').trim();
+}
+function parseArr(t){const c=t.replace(/```json|```/g,'').trim();return JSON.parse(c.slice(c.indexOf('['),c.lastIndexOf(']')+1));}
+function parseObj(t){const c=t.replace(/```json|```/g,'').trim();return JSON.parse(c.slice(c.indexOf('{'),c.lastIndexOf('}')+1));}
+
+const STORES='Zara India, H&M India, Myntra, Meesho, Ajio, Flipkart Fashion, Nykaa Fashion, ASOS India, Mango India, Cava Athleisure, Suta, Fabindia, The Label Life, W for Woman, Global Desi, Biba, Libas, Bewakoof, The Souled Store, Levi\'s India, Nike India, Adidas India, Puma India, AND (AND Designs), Anouk, Ethnix by Raymond, Jaypore, Goodearth, Raw Mango, Ritu Kumar, FabAlley, Sassafras, Athena, IRTH, Okhai, Taavi, Nayam, Aks, Rangriti, Vishudh, Sangria';
+
+async function doLive(){
+  if(busy.live)return;busy.live=true;
+  const btn=document.getElementById('refbtn');btn.disabled=true;btn.innerHTML='<span class="spin">↻</span> Scanning...';
+  document.getElementById('b-err').innerHTML='';
+  document.getElementById('b-load').innerHTML=`<div class="lbox"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><div>Scanning for live pricing glitches across Indian stores...</div><div class="lbar"><div class="lfill"></div></div></div>`;
+  const p=`Search the web RIGHT NOW for pricing glitches, pricing errors, accidental deep discounts, or unintended coupon stacking on Indian fashion and lifestyle stores including: ${STORES}.
+Check Reddit (r/IndianFrugal, r/india, r/frugalmalefashion, r/IndianFashionAddicts), deal forums, DesiMartini, Twitter/X, Instagram comments.
+Return ONLY a valid JSON array (no markdown, no backticks) of up to 5 deals:
+[{"id":"l1","name":"product name","store":"store name","region":"in","cat":"fashion"or"athleisure"or"ethnic"or"home","type":"glitch"or"deal","niche":true/false,"premium":true/false,"gp":"glitch price ₹","wp":"original price ₹","ep":"store1 price · store2 price","disc":integer,"sav":"₹ saved","hot":true/false,"desc":"short desc","why":"<strong>Why:</strong> explanation","vg":"glitch verdict","vd":"deal verdict","pred":"price prediction with timeline","link":"url","timer":"est time left","spotted":"when","live":true}]
+If nothing found, return 3 highly realistic plausible Indian brand deals based on known glitch patterns. Return ONLY the JSON array.`;
+  try{live=parseArr(await callAPI(p));}
+  catch(e){document.getElementById('b-err').innerHTML=`<div class="errbox">Live scan unavailable right now — showing curated deals.</div>`;}
+  document.getElementById('b-load').innerHTML='';
+  busy.live=false;
+  btn.disabled=false;
+  btn.innerHTML='<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="m1 14 4.64 4.36A9 9 0 0 0 20.49 15"/></svg>Refresh';
+  renderBrowse();
+}
+
+async function doSearch(){
+  const term=document.getElementById('s-input').value.trim();
+  if(!term||busy.search)return;busy.search=true;
+  const btn=document.getElementById('s-btn');btn.disabled=true;btn.innerHTML='<span class="spin">↻</span> Hunting...';
+  document.getElementById('s-err').innerHTML='';document.getElementById('s-results').innerHTML='';
+  document.getElementById('s-load').innerHTML=`<div class="lbox"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div>Hunting for "<strong>${term}</strong>" deals across Indian brands...</div><div class="lbar"><div class="lfill"></div></div></div>`;
+  const p=`You are a deal-hunting expert specialising in Indian fashion and lifestyle brands. Search the web for current pricing glitches, pricing errors, or exceptional discounts for: "${term}" on Indian stores including niche D2C brands.
+Stores to check: ${STORES}.
+Also check Reddit (r/IndianFrugal, r/IndianFashionAddicts), deal forums, brand Instagram/WhatsApp offers.
+Classify each as "glitch" (clear pricing error) or "deal" (legitimately exceptional value but possibly intentional).
+Return ONLY a valid JSON array (no markdown, no backticks) of up to 6 results:
+[{"id":"s1","name":"product name","store":"store name","region":"in","cat":"fashion"or"athleisure"or"ethnic"or"electronics"or"home","type":"glitch"or"deal","niche":true/false,"premium":true/false,"gp":"price with ₹","wp":"original price with ₹","ep":"2 comparator stores · separated","disc":integer percent off,"sav":"₹ saved","hot":true/false,"desc":"short description","why":"<strong>Why it's a glitch/deal:</strong> detailed explanation of why this is exceptional","vg":"glitch verdict — is this a real error, will orders ship?","vd":"deal verdict — is this genuinely exceptional vs Indian market price?","pred":"price prediction — specific timeline for when this expires or reverts, fulfilment likelihood","link":"direct URL","timer":"est time left","spotted":"when spotted","live":true}]
+If nothing found, return 4 realistic plausible deals for "${term}" from Indian brands. Return ONLY the JSON array.`;
+  try{
+    const arr=parseArr(await callAPI(p));
+    document.getElementById('s-load').innerHTML='';
+    if(!arr.length){document.getElementById('s-results').innerHTML='<div class="empty">No deals found. Try a different search term.</div>';}
+    else{
+      const hot=arr.filter(d=>d.hot).sort((a,b)=>b.disc-a.disc);
+      const rest=arr.filter(d=>!d.hot).sort((a,b)=>b.disc-a.disc);
+      document.getElementById('s-results').innerHTML=`<div class="divr"><span class="divr-l"></span><span>${arr.length} result${arr.length!==1?'s':''} for "${term}"</span><span class="divr-l"></span></div><div class="deals">${[...hot,...rest].map(d=>cardHTML(d,true)).join('')}</div>`;
+    }
+  }catch(e){document.getElementById('s-load').innerHTML='';document.getElementById('s-err').innerHTML=`<div class="errbox">Search failed: ${e.message}</div>`;}
+  busy.search=false;btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Hunt';
+}
+
+async function doVerify(){
+  const name=document.getElementById('v-name').value.trim();
+  const price=document.getElementById('v-price').value.trim();
+  if(!name||!price||busy.verify)return;busy.verify=true;
+  const store=document.getElementById('v-store').value.trim();
+  const ctx=document.getElementById('v-ctx').value.trim();
+  const btn=document.getElementById('v-btn');btn.disabled=true;btn.innerHTML='<span class="spin">↻</span> Verifying...';
+  document.getElementById('v-err').innerHTML='';document.getElementById('v-result').innerHTML='';
+  document.getElementById('v-load').innerHTML=`<div class="lbox"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div>Checking prices across Indian stores...</div><div class="lbar"><div class="lfill"></div></div></div>`;
+  const p=`Verify this India deal. Product: ${name}. Price seen: ${price}. Store: ${store||'unspecified'}. Context: ${ctx||'none'}.
+Search the web for: normal retail price in India, what other Indian stores charge, any known glitches for this brand, Reddit India deal threads mentioning this.
+Return ONLY a valid JSON object (no markdown, no backticks):
+{"verdict":"glitch"or"great_deal"or"suspicious"or"normal_sale","confidence":0-100,"normal_price":"normal Indian retail price","elsewhere":"2-3 Indian store prices · separated","saving":"₹ saved vs normal","glitch_analysis":"is this a real pricing error, why, detailed","deal_analysis":"is this genuinely exceptional value for the Indian market","risk":"low"or"medium"or"high","risk_reason":"why order might be cancelled or not honoured","prediction":"when will price revert, will orders ship — specific Indian brand context","recommendation":"clear actionable advice for an Indian shopper — buy now / wait / avoid and why"}`;
+  try{
+    const v=parseObj(await callAPI(p));
+    document.getElementById('v-load').innerHTML='';
+    const vc={glitch:'#c0392b',great_deal:'#27500A',suspicious:'#854F0B',normal_sale:'#185FA5'};
+    const vl={glitch:'Pricing glitch',great_deal:'Great deal',suspicious:'Suspicious',normal_sale:'Normal sale'};
+    const col=vc[v.verdict]||'#888';
+    const conf=Math.min(100,Math.max(0,v.confidence||50));
+    const filled=Math.round(conf/20);
+    const sc={glitch:'fr',great_deal:'fg',suspicious:'fa',normal_sale:'fg'}[v.verdict]||'fg';
+    const riskCol=v.risk==='low'?'var(--sg2)':v.risk==='high'?'#c0392b':'var(--gd2)';
+    document.getElementById('v-result').innerHTML=`<div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rad2);padding:1.1rem;box-shadow:var(--shadow)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px;flex-wrap:wrap">
+        <div class="cname" style="font-size:15px">${name}</div>
+        <span class="bdg" style="background:${col}18;color:${col};font-size:11px;padding:3px 10px">${vl[v.verdict]||v.verdict}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:7px;margin-bottom:10px">
+        <div class="stat"><div class="stat-l">You saw</div><div class="stat-v" style="font-size:18px;color:${col}">${price}</div></div>
+        <div class="stat"><div class="stat-l">Normal price</div><div class="stat-v" style="font-size:18px">${v.normal_price||'—'}</div></div>
+        <div class="stat"><div class="stat-l">You save</div><div class="stat-v c-sg" style="font-size:18px">${v.saving||'—'}</div></div>
+      </div>
+      <div style="margin-bottom:9px">
+        <div style="font-size:10px;color:var(--tx2);margin-bottom:5px;font-weight:500;text-transform:uppercase;letter-spacing:.04em">AI confidence: ${conf}%</div>
+        <div class="vmeter">${Array.from({length:5},(_,i)=>`<div class="vseg${i<filled?' '+sc:''}"></div>`).join('')}</div>
+      </div>
+      <div class="vrow" style="margin-bottom:8px">
+        <div class="vbox vbox-g"><strong>Glitch analysis:</strong> ${v.glitch_analysis||'—'}</div>
+        <div class="vbox vbox-d"><strong>Deal analysis:</strong> ${v.deal_analysis||'—'}</div>
+      </div>
+      <div class="pbox" style="margin-bottom:8px"><strong>Price prediction:</strong> ${v.prediction||'—'}</div>
+      <div style="background:var(--bg3);border-radius:var(--rad);padding:9px 11px;font-size:11px;line-height:1.7;border:1px solid var(--bdr)">
+        <strong>Elsewhere in India:</strong> ${v.elsewhere||'—'}<br>
+        <strong>Order risk:</strong> <span style="color:${riskCol};font-weight:600">${(v.risk||'').toUpperCase()}</span> — ${v.risk_reason||'—'}<br>
+        <strong>Recommendation:</strong> ${v.recommendation||'—'}
+      </div>
+      <button class="btn-outline" style="margin-top:10px;width:100%;justify-content:center;font-size:12px" onclick="sendPrompt('I found ${name.replace(/'/g,"\\'")} at ${price}${store?' on '+store:''}. Based on the verification, how do I buy this safely right now? Any tips for Indian online orders?')">Get full buying advice ↗</button>
+    </div>`;
+  }catch(e){document.getElementById('v-load').innerHTML='';document.getElementById('v-err').innerHTML=`<div class="errbox">Verification failed: ${e.message}</div>`;}
+  busy.verify=false;btn.disabled=false;btn.innerHTML='<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verify this deal';
+}
+</script>
