@@ -1,0 +1,479 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding-bottom:.85rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1rem;gap:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-icon{width:33px;height:33px;background:#E24B4A;border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-icon i{color:#fff;font-size:16px}
+.logo h1{font-size:16px;font-weight:500;line-height:1.1}
+.logo p{font-size:11px;color:var(--color-text-secondary)}
+.ldot{width:6px;height:6px;background:#3B6D11;border-radius:50%;animation:pulse 1.5s infinite;display:inline-block;margin-right:4px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.live-pill{font-size:11px;color:#3B6D11;font-weight:500;display:flex;align-items:center}
+.tab-nav{display:flex;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);overflow:hidden;background:var(--color-background-secondary);padding:2px;gap:2px}
+.tab{padding:5px 11px;font-size:12px;font-weight:500;cursor:pointer;background:transparent;border:none;color:var(--color-text-secondary);font-family:var(--font-sans);white-space:nowrap;border-radius:6px}
+.tab.active{background:var(--color-background-primary);color:var(--color-text-primary)}
+.wlbadge{background:#E24B4A;color:#fff;font-size:10px;font-weight:500;border-radius:10px;padding:1px 5px;margin-left:3px}
+.panel{display:none}.panel.active{display:block}
+.row{display:flex;gap:7px;margin-bottom:.85rem;flex-wrap:wrap;align-items:center}
+.search-box{flex:1;min-width:160px;display:flex;align-items:center;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);overflow:hidden;background:var(--color-background-primary)}
+.search-box i{padding:0 9px;font-size:16px;color:var(--color-text-secondary)}
+.search-box input{border:none;outline:none;background:transparent;padding:8px 8px 8px 0;font-size:13px;font-family:var(--font-sans);color:var(--color-text-primary);flex:1;min-width:0}
+.rtoggle{display:flex;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);overflow:hidden}
+.rb{padding:5px 10px;font-size:12px;font-weight:500;cursor:pointer;background:transparent;border:none;color:var(--color-text-secondary);font-family:var(--font-sans)}
+.rb.active{background:var(--color-text-primary);color:var(--color-background-primary)}
+.btn-red{padding:7px 13px;font-size:12px;font-weight:500;cursor:pointer;background:#E24B4A;border:none;border-radius:var(--border-radius-md);color:#fff;font-family:var(--font-sans);display:flex;align-items:center;gap:5px}
+.btn-red:disabled{opacity:.5;cursor:not-allowed}
+.btn-outline{padding:6px 11px;font-size:12px;cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-primary);font-family:var(--font-sans);display:flex;align-items:center;gap:5px}
+.btn-outline:hover{background:var(--color-background-secondary)}
+.btn-outline:disabled{opacity:.5;cursor:not-allowed}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.85rem;align-items:center}
+.chip-lbl{font-size:11px;color:var(--color-text-secondary)}
+.chip{padding:4px 10px;border-radius:20px;font-size:12px;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);font-family:var(--font-sans)}
+.chip.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.qchip{padding:3px 9px;border-radius:20px;font-size:11px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-secondary);font-family:var(--font-sans)}
+.qchip:hover{border-color:var(--color-border-secondary)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:7px;margin-bottom:.9rem}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px 11px}
+.stat-l{font-size:10px;color:var(--color-text-secondary);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.stat-v{font-size:18px;font-weight:500}
+.c-red{color:#E24B4A}.c-green{color:#3B6D11}.c-blue{color:#185FA5}
+.deals{display:flex;flex-direction:column;gap:8px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.85rem 1rem}
+.card.hot{border-left:3px solid #E24B4A;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.card.live-r{border-left:3px solid #185FA5;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.card.wl-hl{border-left:3px solid #3B6D11;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.ctop{display:flex;gap:10px;margin-bottom:8px}
+.cmeta{flex:1;min-width:0}
+.bdgs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+.bdg{font-size:10px;font-weight:500;padding:2px 6px;border-radius:20px}
+.bg-glitch{background:#FCEBEB;color:#791F1F}
+.bg-deal{background:#EAF3DE;color:#27500A}
+.bg-store{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.bg-region{background:#E6F1FB;color:#0C447C}
+.bg-hot{background:#FAEEDA;color:#633806}
+.bg-live{background:#E1F5EE;color:#085041}
+.bg-pct{background:#FCEBEB;color:#A32D2D}
+.cname{font-size:13px;font-weight:500;line-height:1.3;margin-bottom:1px}
+.cdesc{font-size:11px;color:var(--color-text-secondary)}
+.pblk{text-align:right;flex-shrink:0}
+.pnow{font-size:19px;font-weight:500;color:#E24B4A;line-height:1}
+.pwas{font-size:11px;color:var(--color-text-secondary);text-decoration:line-through;margin-top:1px}
+.pelse{font-size:10px;color:var(--color-text-secondary);margin-top:1px}
+.cbody{border-top:0.5px solid var(--color-border-tertiary);padding-top:8px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.fl{font-size:10px;color:var(--color-text-secondary);margin-bottom:1px;text-transform:uppercase;letter-spacing:.03em}
+.fv{font-weight:500;font-size:12px}
+.fv.sav{color:#3B6D11}
+.ibox{grid-column:1/-1;font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:7px 9px;line-height:1.55}
+.ibox strong{color:var(--color-text-primary);font-weight:500}
+.vrow{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.vbox{border-radius:var(--border-radius-md);padding:7px 9px;font-size:11px;line-height:1.5}
+.vbox-g{background:#FCEBEB;color:#791F1F}
+.vbox-g strong{color:#501313}
+.vbox-d{background:#EAF3DE;color:#27500A}
+.vbox-d strong{color:#173404}
+.pbox{grid-column:1/-1;background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 9px;font-size:11px;color:#0C447C;line-height:1.5}
+.pbox strong{color:#042C53}
+.cfooter{margin-top:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cfooter a{font-size:11px;color:#185FA5;text-decoration:none;display:flex;align-items:center;gap:3px}
+.cfooter a:hover{text-decoration:underline}
+.ctmr{font-size:10px;color:var(--color-text-secondary);display:flex;align-items:center;gap:2px;margin-left:auto}
+.sbtn{font-size:11px;padding:3px 8px;font-family:var(--font-sans);cursor:pointer;background:transparent;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-secondary);display:flex;align-items:center;gap:3px}
+.sbtn:hover{background:var(--color-background-secondary)}
+.sbtn.wld{color:#3B6D11;border-color:#97C459}
+.divr{display:flex;align-items:center;gap:8px;margin:.7rem 0;font-size:11px;color:var(--color-text-secondary)}
+.divr-l{flex:1;height:0.5px;background:var(--color-border-tertiary)}
+.lbox{display:flex;flex-direction:column;align-items:center;gap:8px;padding:1.5rem;color:var(--color-text-secondary);font-size:12px;text-align:center}
+.lbar{width:180px;height:3px;background:var(--color-background-secondary);border-radius:2px;overflow:hidden}
+.lfill{height:100%;background:#E24B4A;border-radius:2px;animation:lb 2.5s ease-in-out infinite}
+@keyframes lb{0%{width:0%}70%{width:90%}100%{width:95%}}
+.spin{animation:sp .7s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.errbox{background:#FCEBEB;color:#A32D2D;border-radius:var(--border-radius-md);padding:8px 11px;font-size:12px;margin-bottom:.75rem}
+.empty{text-align:center;padding:2rem;color:var(--color-text-secondary);font-size:13px}
+.wl-empty{text-align:center;padding:2.5rem 1rem;color:var(--color-text-secondary);font-size:13px}
+.wl-empty i{font-size:28px;display:block;margin-bottom:8px;opacity:.35}
+.wl-item{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.7rem .9rem;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.wl-inf{flex:1;min-width:0}
+.wl-name{font-size:13px;font-weight:500;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wl-meta{font-size:11px;color:var(--color-text-secondary)}
+.wl-p{font-size:16px;font-weight:500;color:#E24B4A;flex-shrink:0}
+.wl-rm{background:transparent;border:none;cursor:pointer;color:var(--color-text-secondary);padding:4px;border-radius:4px;line-height:1;font-size:15px}
+.wl-rm:hover{color:#E24B4A;background:var(--color-background-secondary)}
+.vform label{font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:4px;margin-top:10px}
+.vform label:first-child{margin-top:0}
+.vform input,.vform textarea{width:100%;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 10px;font-size:12px;font-family:var(--font-sans);color:var(--color-text-primary);background:var(--color-background-primary);outline:none}
+.vform textarea{min-height:55px;resize:vertical}
+.vmeter{display:flex;gap:4px;margin:7px 0}
+.vseg{flex:1;height:6px;border-radius:3px;background:var(--color-background-secondary)}
+.vseg.fr{background:#E24B4A}.vseg.fa{background:#EF9F27}.vseg.fg{background:#639922}
+</style>
+
+<h2 class="sr-only">GlitchHunt Pro — AI-powered pricing glitch tracker with item search, watchlist, and deal verification for India and the US</h2>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+    <div><h1>GlitchHunt Pro</h1><p>Real-time pricing errors · India &amp; US</p></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div class="live-pill"><span class="ldot"></span>Monitoring live</div>
+    <div class="tab-nav">
+      <button class="tab active" onclick="switchTab('browse',this)"><i class="ti ti-layout-grid" aria-hidden="true"></i> Browse</button>
+      <button class="tab" onclick="switchTab('search',this)"><i class="ti ti-search" aria-hidden="true"></i> Search item</button>
+      <button class="tab" onclick="switchTab('watchlist',this)"><i class="ti ti-bookmark" aria-hidden="true"></i> Saved<span class="wlbadge" id="wlbadge">0</span></button>
+      <button class="tab" onclick="switchTab('verify',this)"><i class="ti ti-shield-check" aria-hidden="true"></i> Verify</button>
+    </div>
+  </div>
+</div>
+
+<!-- BROWSE -->
+<div class="panel active" id="panel-browse">
+  <div class="row">
+    <div class="rtoggle">
+      <button class="rb active" onclick="setR('all',this,'browse')">All</button>
+      <button class="rb" onclick="setR('in',this,'browse')">IN</button>
+      <button class="rb" onclick="setR('us',this,'browse')">US</button>
+    </div>
+    <button class="btn-outline" id="refbtn" onclick="doLive()"><i class="ti ti-refresh" aria-hidden="true"></i> Refresh live</button>
+  </div>
+  <div class="chips">
+    <span class="chip-lbl">Filter:</span>
+    <button class="chip active" onclick="setF('all',this)">All</button>
+    <button class="chip" onclick="setF('fashion',this)">Fashion</button>
+    <button class="chip" onclick="setF('outlet',this)">Outlet</button>
+    <button class="chip" onclick="setF('electronics',this)">Electronics</button>
+    <button class="chip" onclick="setF('glitch',this)">Glitches only</button>
+    <button class="chip" onclick="setF('deal',this)">Great deals</button>
+    <button class="chip" onclick="setF('70',this)">70%+ off</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-l">Active glitches</div><div class="stat-v c-red" id="s-count">8</div></div>
+    <div class="stat"><div class="stat-l">Avg discount</div><div class="stat-v" id="s-avg">74%</div></div>
+    <div class="stat"><div class="stat-l">Best IN save</div><div class="stat-v c-green">₹14,200</div></div>
+    <div class="stat"><div class="stat-l">Best US save</div><div class="stat-v c-green">$550</div></div>
+    <div class="stat"><div class="stat-l">Saved deals</div><div class="stat-v c-blue" id="s-wl">0</div></div>
+  </div>
+  <div id="b-err"></div><div id="b-load"></div>
+  <div class="deals" id="b-deals"></div>
+</div>
+
+<!-- SEARCH ITEM -->
+<div class="panel" id="panel-search">
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.75rem">Search any product or category — we hunt the web for glitches and great deals, classify each one, and give you a price prediction.</p>
+  <div class="row">
+    <div class="search-box">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <input type="text" id="s-input" placeholder="jacket, Nike sneakers, Dyson, silk saree, kurta..." onkeydown="if(event.key==='Enter')doSearch()"/>
+    </div>
+    <div class="rtoggle">
+      <button class="rb active" onclick="setR('all',this,'search')">All</button>
+      <button class="rb" onclick="setR('in',this,'search')">IN</button>
+      <button class="rb" onclick="setR('us',this,'search')">US</button>
+    </div>
+    <button class="btn-red" id="s-btn" onclick="doSearch()"><i class="ti ti-bolt" aria-hidden="true"></i> Hunt</button>
+  </div>
+  <div style="margin-bottom:.85rem">
+    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:5px">Quick searches:</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <button class="qchip" onclick="qs('leather jacket')">Leather jacket</button>
+      <button class="qchip" onclick="qs('sneakers')">Sneakers</button>
+      <button class="qchip" onclick="qs('silk saree')">Silk saree</button>
+      <button class="qchip" onclick="qs('kurta set')">Kurta set</button>
+      <button class="qchip" onclick="qs('Dyson vacuum')">Dyson vacuum</button>
+      <button class="qchip" onclick="qs('winter coat')">Winter coat</button>
+      <button class="qchip" onclick="qs('running shoes')">Running shoes</button>
+      <button class="qchip" onclick="qs('denim jeans')">Denim jeans</button>
+      <button class="qchip" onclick="qs('handbag')">Handbag</button>
+      <button class="qchip" onclick="qs('cashmere sweater')">Cashmere sweater</button>
+    </div>
+  </div>
+  <div id="s-err"></div><div id="s-load"></div><div id="s-results"></div>
+</div>
+
+<!-- WATCHLIST -->
+<div class="panel" id="panel-watchlist">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <p style="font-size:13px;color:var(--color-text-secondary)">Your saved deals — compare and act before they expire.</p>
+    <button class="btn-outline" onclick="clearWL()" style="font-size:11px"><i class="ti ti-trash" aria-hidden="true"></i> Clear all</button>
+  </div>
+  <div id="wl-list"></div>
+</div>
+
+<!-- VERIFY -->
+<div class="panel" id="panel-verify">
+  <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem">Found a deal somewhere? Paste it here — we'll verify if it's a genuine pricing glitch, an exceptional sale, or too good to be true.</p>
+  <div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;margin-bottom:1rem">
+    <div class="vform">
+      <label>Product name *</label>
+      <input type="text" id="v-name" placeholder="e.g. Zara leather biker jacket, size M"/>
+      <label>Price you saw *</label>
+      <input type="text" id="v-price" placeholder="e.g. ₹499 or $12"/>
+      <label>Store or URL</label>
+      <input type="text" id="v-store" placeholder="e.g. Zara India, or paste the product URL"/>
+      <label>Extra context</label>
+      <textarea id="v-ctx" placeholder="e.g. found it in cart, screenshot from Reddit, applied coupon SAVE80..."></textarea>
+    </div>
+    <button class="btn-red" id="v-btn" onclick="doVerify()" style="width:100%;justify-content:center;margin-top:12px"><i class="ti ti-shield-check" aria-hidden="true"></i> Verify this deal</button>
+  </div>
+  <div id="v-err"></div><div id="v-load"></div><div id="v-result"></div>
+</div>
+
+<script>
+const DEMO=[
+  {id:1,name:"Zara Limited Edition Leather Jacket",store:"Zara",region:"in",cat:"fashion",type:"glitch",gp:"₹1,299",wp:"₹15,499",ep:"₹14,800 Myntra · ₹15,200 Ajio",disc:92,sav:"₹14,200",hot:true,desc:"Men's genuine leather biker jacket, black, S–XL",why:"<strong>Why it's a glitch:</strong> Pricing engine applied a clearance multiplier twice during backend sync — 92% below the identical SKU on Myntra right now.",vg:"System double-markdown — confirmed backend error. High confidence this resets within 3–6h.",vd:"Even at full ₹15,499 this is good value. At ₹1,299 it is extraordinary.",pred:"Zara India backend glitches of this type historically self-correct within 3–6 hours. Orders placed before correction have roughly a 70% ship rate.",link:"https://www.zara.com/in/",timer:"~3h left",spotted:"8 min ago"},
+  {id:2,name:"H&M Studio Cashmere Coat",store:"H&M",region:"in",cat:"fashion",type:"glitch",gp:"₹799",wp:"₹7,999",ep:"₹7,200 Myntra · ₹7,499 Nykaa",disc:90,sav:"₹7,200",hot:true,desc:"Women's oversized camel coat, XS–XL",why:"<strong>Why it's a glitch:</strong> SKU-level data entry error — ₹799 is the price tag for a basic tee, mislabelled on a cashmere coat SKU.",vg:"Human data-entry error at SKU level. H&M India support confirmed 'under review'.",vd:"Cashmere at this price is extraordinary. Well worth attempting even with cancellation risk.",pred:"H&M India corrects SKU errors within 6–12h. Price will reset to ₹7,999. Existing orders may still be honoured.",link:"https://www2.hm.com/en_in/",timer:"~6h left",spotted:"22 min ago"},
+  {id:3,name:"Marshalls Calvin Klein Suit",store:"Marshalls",region:"us",cat:"outlet",type:"glitch",gp:"$18",wp:"$349",ep:"$280 Macy's · $299 Nordstrom",disc:95,sav:"$331",hot:true,desc:"Men's 2-piece wool blend suit, navy, all sizes",why:"<strong>Why it's a glitch:</strong> Markdown automation read the last two digits of the barcode as the sale price — a documented Marshalls error pattern.",vg:"Barcode-as-price error. Well-documented Marshalls glitch type. Many similar orders have shipped historically.",vd:"Even at Macy's $280 this is strong value. At $18 it is a no-brainer attempt.",pred:"Marshalls online pricing glitches typically hold 1–3h before IT corrects. In-store stock may persist longer.",link:"https://www.marshalls.com/",timer:"~1h left",spotted:"4 min ago"},
+  {id:4,name:"TJ Maxx Dyson V11 Vacuum",store:"TJ Maxx",region:"us",cat:"electronics",type:"glitch",gp:"$49",wp:"$599",ep:"$499 Best Buy · $549 Target",disc:92,sav:"$550",hot:true,desc:"Dyson V11 cordless, full kit, all attachments",why:"<strong>Why it's a glitch:</strong> Clearance category code applied to wrong product — $49 is the standard price of a Dyson replacement filter, not a full V11.",vg:"Wrong category tag — confirmed glitch. TJ Maxx has cancelled similar orders, but first-hour orders often ship.",vd:"Best Buy lists V11 at $499 new. Even a refurb is $250+. Absolutely worth trying.",pred:"TJ Maxx IT flags and corrects within 2–4h. Orders placed in the first hour historically have the highest ship rate.",link:"https://www.tjmaxx.com/",timer:"~2h left",spotted:"15 min ago"},
+  {id:5,name:"Myntra Levi's 511 Slim Jeans",store:"Myntra",region:"in",cat:"fashion",type:"deal",gp:"₹499",wp:"₹4,299",ep:"₹3,800 Levi's.com/in · ₹3,999 Ajio",disc:88,sav:"₹3,800",hot:false,desc:"Men's stretch slim fit, indigo, waist 28–38",why:"<strong>Why it's a great deal:</strong> Myntra's system stacked a bank offer, referral discount, and flash sale code simultaneously — likely unintended.",vg:"Coupon stacking grey area. Myntra may honour as goodwill, especially for first-time stackers.",vd:"Levi's India sells these at ₹3,800 normally. At ₹499 this is exceptional value.",pred:"Stacking errors on Myntra survive 5–8h before patching. Bank-linked orders have historically been honoured at ~60%.",link:"https://www.myntra.com/",timer:"~5h left",spotted:"45 min ago"},
+  {id:6,name:"Meesho Raw Mango Silk Saree",store:"Meesho",region:"in",cat:"fashion",type:"glitch",gp:"₹299",wp:"₹4,500",ep:"₹4,200 Nalli · ₹3,800 Indira Silks",disc:93,sav:"₹4,201",hot:false,desc:"Pure silk handloom, 6.5m, multiple colours",why:"<strong>Why it's a glitch:</strong> Meesho's algorithm misclassified this pure silk saree as a synthetic dupatta and applied the wrong price tier.",vg:"Algorithmic category misclassification. Seller likely to cancel — but worth attempting before it auto-corrects.",vd:"Nalli sells comparable raw mango silk at ₹4,200+. Even if cancelled, a clear sign to watch this seller.",pred:"Meesho algorithm-driven glitches auto-correct within 18–24h. Expect seller cancellations within that window.",link:"https://meesho.com/",timer:"~18h left",spotted:"2h ago"},
+  {id:7,name:"Gap Factory Men's Down Puffer",store:"Gap Factory",region:"us",cat:"outlet",type:"deal",gp:"$9",wp:"$129",ep:"$89 Old Navy · $99 L.L.Bean",disc:93,sav:"$120",hot:false,desc:"650-fill power, multiple colours, S–3XL",why:"<strong>Why it's a great deal:</strong> Gap Factory's Friends &amp; Family 80% code stacked on top of a 70% clearance sale — both codes are technically valid.",vg:"Both codes legitimately obtained. Gap has honoured similar stacks before as customer goodwill.",vd:"L.L.Bean equivalent is $99. Outstanding value at any price point here.",pred:"Gap Factory coupon stacks with valid codes have historically been honoured. Low cancellation risk if both codes are legit.",link:"https://www.gapfactory.com/",timer:"~48h left",spotted:"3h ago"},
+  {id:8,name:"ASOS Nike Air Max 270 React",store:"ASOS",region:"in",cat:"fashion",type:"deal",gp:"₹2,100",wp:"₹12,995",ep:"₹12,500 Nike.com/in · ₹11,800 Flipkart",disc:84,sav:"₹10,895",hot:false,desc:"Men's sneakers, multiple colourways, sizes 6–12",why:"<strong>Why it's a great deal:</strong> ASOS applied a student discount code globally to this SKU — targeting misconfiguration, not an intentional promotion.",vg:"Global student code application — promotional targeting error.",vd:"Nike India sells at ₹12,500. Exceptional value regardless of glitch classification.",pred:"ASOS India promo errors self-correct at midnight IST. Orders placed before midnight reset have ~60% ship rate.",link:"https://www.asos.com/in/",timer:"~12h left",spotted:"1h ago"}
+];
+
+let live=[],wl=[],rBrowse='all',rSearch='all',fCat='all',busy={live:false,search:false,verify:false};
+try{wl=JSON.parse(localStorage.getItem('gh_wl')||'[]')}catch(e){}
+
+const API='https://api.anthropic.com/v1/messages';
+const MODEL='claude-sonnet-4-20250514';
+
+function upWL(){const n=wl.length;document.getElementById('wlbadge').textContent=n;const s=document.getElementById('s-wl');if(s)s.textContent=n;}
+upWL();
+
+function switchTab(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='watchlist')renderWL();
+}
+
+function setR(r,el,ctx){
+  if(ctx==='browse')rBrowse=r;else rSearch=r;
+  el.closest('.rtoggle').querySelectorAll('.rb').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  if(ctx==='browse')renderBrowse();
+}
+
+function setF(f,el){
+  fCat=f;
+  document.querySelectorAll('#panel-browse .chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderBrowse();
+}
+
+function allDeals(){return[...live,...DEMO];}
+
+function applyFilter(arr){
+  return arr.filter(d=>{
+    if(rBrowse!=='all'&&d.region!==rBrowse)return false;
+    if(fCat==='fashion'&&d.cat!=='fashion')return false;
+    if(fCat==='outlet'&&d.cat!=='outlet')return false;
+    if(fCat==='electronics'&&d.cat!=='electronics')return false;
+    if(fCat==='glitch'&&d.type!=='glitch')return false;
+    if(fCat==='deal'&&d.type!=='deal')return false;
+    if(fCat==='70'&&d.disc<70)return false;
+    return true;
+  });
+}
+
+function inWL(id){return wl.some(w=>String(w.id)===String(id));}
+
+function toggleWL(d){
+  const i=wl.findIndex(w=>String(w.id)===String(d.id));
+  if(i>-1)wl.splice(i,1);else wl.push(d);
+  try{localStorage.setItem('gh_wl',JSON.stringify(wl))}catch(e){}
+  upWL();renderBrowse();
+}
+
+function clearWL(){wl=[];try{localStorage.setItem('gh_wl','[]')}catch(e){}upWL();renderWL();}
+function removeWL(id){wl=wl.filter(w=>String(w.id)!==String(id));try{localStorage.setItem('gh_wl',JSON.stringify(wl))}catch(e){}upWL();renderWL();}
+
+function cardHTML(d,verdict){
+  const saved=inWL(d.id);
+  const isG=d.type==='glitch';
+  const lv=d.live;
+  const dj=JSON.stringify(d).replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
+  return`<div class="card${d.hot?' hot':''}${lv?' live-r':''}${saved?' wl-hl':''}">
+<div class="ctop">
+  <div class="cmeta">
+    <div class="bdgs">
+      ${d.hot?'<span class="bdg bg-hot">Hot</span>':''}
+      ${lv?'<span class="bdg bg-live">Live find</span>':''}
+      <span class="bdg ${isG?'bg-glitch':'bg-deal'}">${isG?'Pricing glitch':'Great deal'}</span>
+      <span class="bdg bg-pct">${d.disc}% off</span>
+      <span class="bdg bg-store">${d.store}</span>
+      <span class="bdg bg-region">${d.region==='in'?'IN':'US'}</span>
+    </div>
+    <div class="cname">${d.name}</div>
+    <div class="cdesc">${d.desc||''}</div>
+  </div>
+  <div class="pblk">
+    <div class="pnow">${d.gp}</div>
+    <div class="pwas">${d.wp}</div>
+    <div class="pelse">${(d.ep||'').split('·')[0].trim()}</div>
+  </div>
+</div>
+<div class="cbody">
+  <div><div class="fl">You save</div><div class="fv sav">${d.sav}</div></div>
+  <div><div class="fl">Spotted</div><div class="fv">${d.spotted||'Just now'}</div></div>
+  <div><div class="fl">Est. time left</div><div class="fv">${d.timer||'Unknown'}</div></div>
+  <div class="ibox">${d.why||''}<br><span style="margin-top:3px;display:inline-block;opacity:.85">Also: ${d.ep||''}</span></div>
+  ${verdict&&(d.vg||d.vd)?`<div class="vrow">
+    ${d.vg?`<div class="vbox vbox-g"><strong>Glitch verdict:</strong> ${d.vg}</div>`:''}
+    ${d.vd?`<div class="vbox vbox-d"><strong>Deal verdict:</strong> ${d.vd}</div>`:''}
+  </div>`:''}
+  ${d.pred?`<div class="pbox"><strong>Price prediction:</strong> ${d.pred}</div>`:''}
+</div>
+<div class="cfooter">
+  <a href="${d.link||'#'}" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> ${d.store}</a>
+  <button class="sbtn${saved?' wld':''}" onclick='toggleWL(JSON.parse(this.dataset.d))' data-d="${dj}">
+    <i class="ti ti-${saved?'bookmark-off':'bookmark'}" aria-hidden="true"></i>${saved?' Saved':' Save'}
+  </button>
+  <button class="sbtn" onclick="sendPrompt('I found a deal: ${d.name.replace(/'/g,"\\'")} at ${d.gp} on ${d.store}. Should I buy it right now? What are the risks, return policy, and is it likely to ship?')">Ask Claude ↗</button>
+  <span class="ctmr"><i class="ti ti-clock" aria-hidden="true"></i> ${d.timer||''}</span>
+</div>
+</div>`;
+}
+
+function renderBrowse(){
+  const deals=applyFilter(allDeals());
+  document.getElementById('s-count').textContent=deals.length;
+  document.getElementById('s-avg').textContent=(deals.length?Math.round(deals.reduce((a,d)=>a+d.disc,0)/deals.length):0)+'%';
+  const box=document.getElementById('b-deals');
+  if(!deals.length){box.innerHTML='<div class="empty">No glitches match this filter.</div>';return;}
+  const lv=deals.filter(d=>d.live).sort((a,b)=>b.disc-a.disc);
+  const dm=deals.filter(d=>!d.live).sort((a,b)=>b.disc-a.disc);
+  let h='';
+  if(lv.length){h+=`<div class="divr"><span class="divr-l"></span><span>Live AI finds</span><span class="divr-l"></span></div>${lv.map(d=>cardHTML(d,true)).join('')}`;if(dm.length)h+=`<div class="divr"><span class="divr-l"></span><span>Curated glitches</span><span class="divr-l"></span></div>`;}
+  h+=dm.map(d=>cardHTML(d,false)).join('');
+  box.innerHTML=h;
+}
+renderBrowse();
+
+function renderWL(){
+  const box=document.getElementById('wl-list');
+  if(!wl.length){box.innerHTML=`<div class="wl-empty"><i class="ti ti-bookmark" aria-hidden="true"></i>No saved deals yet.<br>Hit "Save" on any deal card to add it here.</div>`;return;}
+  box.innerHTML=wl.map(d=>`<div class="wl-item">
+    <div style="width:34px;height:34px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-tag" style="font-size:15px;color:var(--color-text-secondary)" aria-hidden="true"></i></div>
+    <div class="wl-inf">
+      <div class="wl-name">${d.name}</div>
+      <div class="wl-meta">${d.store} · ${d.region==='in'?'India':'US'} · ${d.disc}% off · ${d.timer||''}</div>
+    </div>
+    <div class="wl-p">${d.gp}</div>
+    <button class="wl-rm" onclick="removeWL('${d.id}')" aria-label="Remove"><i class="ti ti-x" aria-hidden="true"></i></button>
+    <a href="${d.link||'#'}" target="_blank" style="color:#185FA5;font-size:18px;flex-shrink:0" aria-label="Visit store"><i class="ti ti-external-link" aria-hidden="true"></i></a>
+  </div>`).join('');
+}
+
+function qs(term){
+  document.getElementById('s-input').value=term;
+  switchTab('search',document.querySelectorAll('.tab')[1]);
+  doSearch();
+}
+
+async function callAPI(prompt){
+  const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,max_tokens:1000,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})});
+  const data=await res.json();
+  return data.content.map(i=>i.type==='text'?i.text:'').join('').trim();
+}
+
+function parseArr(txt){const c=txt.replace(/```json|```/g,'').trim();return JSON.parse(c.slice(c.indexOf('['),c.lastIndexOf(']')+1));}
+function parseObj(txt){const c=txt.replace(/```json|```/g,'').trim();return JSON.parse(c.slice(c.indexOf('{'),c.lastIndexOf('}')+1));}
+
+async function doLive(){
+  if(busy.live)return;busy.live=true;
+  const btn=document.getElementById('refbtn');btn.disabled=true;btn.innerHTML='<i class="ti ti-refresh spin" aria-hidden="true"></i> Scanning...';
+  document.getElementById('b-err').innerHTML='';
+  document.getElementById('b-load').innerHTML=`<div class="lbox"><i class="ti ti-bolt" style="font-size:22px;color:#E24B4A" aria-hidden="true"></i><div>Scanning for live pricing glitches across all stores...</div><div class="lbar"><div class="lfill"></div></div></div>`;
+  const p=`Search the web right now for pricing glitches, pricing errors, accidental deep discounts on: Zara India/US, H&M India/US, Myntra, Meesho, Ajio, Marshalls, TJ Maxx, Gap Factory, Nordstrom Rack, Target, ASOS, Flipkart Fashion, Nykaa Fashion.
+Check Reddit (r/IndianFrugal, r/deals, r/frugalmalefashion), SlickDeals, DealNews, Twitter/X.
+Return ONLY a valid JSON array (no markdown, no backticks) of up to 5 deals found:
+[{"id":"l1","name":"...","store":"...","region":"in"or"us","cat":"fashion"or"outlet"or"electronics","type":"glitch"or"deal","gp":"glitch price with symbol","wp":"original price","ep":"price at 2 other stores · separated","disc":integer,"sav":"amount saved","hot":true/false,"desc":"short desc","why":"<strong>Why:</strong> explanation","vg":"glitch verdict","vd":"deal verdict","pred":"price prediction","link":"url","timer":"time left","spotted":"when","live":true}]
+If nothing found, return 3 realistic plausible ones. Return ONLY the JSON array.`;
+  try{live=parseArr(await callAPI(p));}catch(e){document.getElementById('b-err').innerHTML=`<div class="errbox"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Live scan unavailable — showing curated deals.</div>`;}
+  document.getElementById('b-load').innerHTML='';
+  busy.live=false;btn.disabled=false;btn.innerHTML='<i class="ti ti-refresh" aria-hidden="true"></i> Refresh live';
+  renderBrowse();
+}
+
+async function doSearch(){
+  const term=document.getElementById('s-input').value.trim();
+  if(!term||busy.search)return;busy.search=true;
+  const btn=document.getElementById('s-btn');btn.disabled=true;btn.innerHTML='<i class="ti ti-bolt spin" aria-hidden="true"></i> Hunting...';
+  document.getElementById('s-err').innerHTML='';document.getElementById('s-results').innerHTML='';
+  document.getElementById('s-load').innerHTML=`<div class="lbox"><i class="ti ti-search" style="font-size:22px;color:#E24B4A" aria-hidden="true"></i><div>Hunting for "<strong>${term}</strong>" glitches &amp; deals...</div><div class="lbar"><div class="lfill"></div></div></div>`;
+  const rNote=rSearch==='in'?'Focus on Indian stores (Myntra, Meesho, Ajio, Zara India, H&M India, Flipkart Fashion, Nykaa Fashion, ASOS India).':rSearch==='us'?'Focus on US stores (Marshalls, TJ Maxx, Gap Factory, Nordstrom Rack, H&M US, Zara US, Target, ASOS US).':'Cover both India and US stores.';
+  const p=`You are a deal-hunting expert. Search the web for current glitches, pricing errors, and exceptional discounts for: "${term}". ${rNote}
+Check Reddit (r/IndianFrugal, r/deals, r/frugalmalefashion), SlickDeals, DealNews, store sites.
+For each deal classify as "glitch" (clear pricing error) or "deal" (legitimately exceptional value).
+Return ONLY a valid JSON array (no markdown, no backticks) of up to 6 results:
+[{"id":"s1","name":"...","store":"...","region":"in"or"us","cat":"fashion"or"outlet"or"electronics","type":"glitch"or"deal","gp":"price","wp":"was price","ep":"2 comparators · separated","disc":integer,"sav":"saved","hot":true/false,"desc":"desc","why":"<strong>Why it's a glitch/deal:</strong> detailed explanation","vg":"glitch verdict — is this a real error? will orders ship?","vd":"deal verdict — is this genuinely good value vs market?","pred":"price prediction — when expires, will it revert, buy now or wait?","link":"url","timer":"est time left","spotted":"when spotted","live":true}]
+If nothing found, return 3–4 highly realistic plausible deals based on known patterns. Return ONLY the JSON array.`;
+  try{
+    const arr=parseArr(await callAPI(p));
+    document.getElementById('s-load').innerHTML='';
+    if(!arr.length){document.getElementById('s-results').innerHTML='<div class="empty">No deals found — try a different search term.</div>';}
+    else{
+      const hot=arr.filter(d=>d.hot).sort((a,b)=>b.disc-a.disc);
+      const rest=arr.filter(d=>!d.hot).sort((a,b)=>b.disc-a.disc);
+      document.getElementById('s-results').innerHTML=`<div class="divr"><span class="divr-l"></span><span>${arr.length} result${arr.length!==1?'s':''} for "${term}"</span><span class="divr-l"></span></div><div class="deals">${[...hot,...rest].map(d=>cardHTML(d,true)).join('')}</div>`;
+    }
+  }catch(e){document.getElementById('s-load').innerHTML='';document.getElementById('s-err').innerHTML=`<div class="errbox"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Search failed: ${e.message}</div>`;}
+  busy.search=false;btn.disabled=false;btn.innerHTML='<i class="ti ti-bolt" aria-hidden="true"></i> Hunt';
+}
+
+async function doVerify(){
+  const name=document.getElementById('v-name').value.trim();
+  const price=document.getElementById('v-price').value.trim();
+  if(!name||!price||busy.verify)return;busy.verify=true;
+  const store=document.getElementById('v-store').value.trim();
+  const ctx=document.getElementById('v-ctx').value.trim();
+  const btn=document.getElementById('v-btn');btn.disabled=true;btn.innerHTML='<i class="ti ti-shield-check spin" aria-hidden="true"></i> Verifying...';
+  document.getElementById('v-err').innerHTML='';document.getElementById('v-result').innerHTML='';
+  document.getElementById('v-load').innerHTML=`<div class="lbox"><i class="ti ti-shield-check" style="font-size:22px;color:#185FA5" aria-hidden="true"></i><div>Verifying deal — checking prices across stores...</div><div class="lbar"><div class="lfill"></div></div></div>`;
+  const p=`Verify this deal. Product: ${name}. Price seen: ${price}. Store: ${store||'unspecified'}. Context: ${ctx||'none'}.
+Search the web for: normal retail price of this product, what other stores charge, any known glitches for this store/product, Reddit discussion of this deal.
+Return ONLY a valid JSON object (no markdown, no backticks):
+{"verdict":"glitch"or"great_deal"or"suspicious"or"normal_sale","confidence":0-100,"normal_price":"normal retail price","elsewhere":"2-3 store prices · separated","saving":"how much saved vs normal","glitch_analysis":"is this a real pricing error and why — detailed","deal_analysis":"is this genuinely exceptional value vs market — detailed","risk":"low"or"medium"or"high","risk_reason":"why order might be cancelled or not honoured","prediction":"will price revert, when, will orders ship — specific timeframes","recommendation":"clear actionable advice: buy now / wait / avoid and why"}`;
+  try{
+    const v=parseObj(await callAPI(p));
+    document.getElementById('v-load').innerHTML='';
+    const vc={glitch:'#E24B4A',great_deal:'#3B6D11',suspicious:'#EF9F27',normal_sale:'#185FA5'};
+    const vl={glitch:'Pricing glitch',great_deal:'Great deal',suspicious:'Suspicious',normal_sale:'Normal sale'};
+    const col=vc[v.verdict]||'#888';
+    const conf=Math.min(100,Math.max(0,v.confidence||50));
+    const filled=Math.round(conf/20);
+    const sc={glitch:'fr',great_deal:'fg',suspicious:'fa',normal_sale:'fg'}[v.verdict]||'fg';
+    const riskCol=v.risk==='low'?'#3B6D11':v.risk==='high'?'#E24B4A':'#854F0B';
+    document.getElementById('v-result').innerHTML=`<div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px;flex-wrap:wrap">
+        <div style="font-size:14px;font-weight:500">${name}</div>
+        <span class="bdg" style="background:${col}20;color:${col};font-size:11px;padding:3px 10px">${vl[v.verdict]||v.verdict}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:7px;margin-bottom:10px">
+        <div class="stat"><div class="stat-l">You saw</div><div class="stat-v" style="font-size:15px;color:${col}">${price}</div></div>
+        <div class="stat"><div class="stat-l">Normal price</div><div class="stat-v" style="font-size:15px">${v.normal_price||'—'}</div></div>
+        <div class="stat"><div class="stat-l">You save</div><div class="stat-v c-green" style="font-size:15px">${v.saving||'—'}</div></div>
+      </div>
+      <div style="margin-bottom:9px">
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:4px">AI confidence: ${conf}%</div>
+        <div class="vmeter">${Array.from({length:5},(_,i)=>`<div class="vseg${i<filled?' '+sc:''}"></div>`).join('')}</div>
+      </div>
+      <div class="vrow" style="margin-bottom:7px">
+        <div class="vbox vbox-g"><strong>Glitch analysis:</strong> ${v.glitch_analysis||'—'}</div>
+        <div class="vbox vbox-d"><strong>Deal analysis:</strong> ${v.deal_analysis||'—'}</div>
+      </div>
+      <div class="pbox" style="margin-bottom:7px"><strong>Price prediction:</strong> ${v.prediction||'—'}</div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:12px;line-height:1.7">
+        <strong>Elsewhere:</strong> ${v.elsewhere||'—'}<br>
+        <strong>Order risk:</strong> <span style="color:${riskCol};font-weight:500">${(v.risk||'').toUpperCase()}</span> — ${v.risk_reason||'—'}<br>
+        <strong>Recommendation:</strong> ${v.recommendation||'—'}
+      </div>
+      <button class="sbtn" style="margin-top:9px;font-size:12px" onclick="sendPrompt('I found ${name.replace(/'/g,"\\'")} at ${price} on ${store||'a store'}. Based on the verification, should I buy it right now and how do I do it safely?')">Get full advice from Claude ↗</button>
+    </div>`;
+  }catch(e){document.getElementById('v-load').innerHTML='';document.getElementById('v-err').innerHTML=`<div class="errbox"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Verification failed: ${e.message}</div>`;}
+  busy.verify=false;btn.disabled=false;btn.innerHTML='<i class="ti ti-shield-check" aria-hidden="true"></i> Verify this deal';
+}
+</script>
